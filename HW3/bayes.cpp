@@ -112,35 +112,38 @@ void Bayes::calculateMutualInfo(){
                         for(int r = 0; r < attr_table[i].value.size(); r ++){
                                 for(int s = 0; s < attr_table[j].value.size(); s++){
                                         for(int t = 0; t < 2; t++){
-                                                if(i == 0 && j == 0)
+                                                if(i == 1 && j == 1)
                                                 cout << "Value : " << r << " " << s << " " << t << endl;
                                                 int ijy = mutual_table[t][r][s];
                                                 int ijy_total = dataset.size();
                                                 long double pijy =(long double)(ijy+1)/
-                                                        (ijy_total+2*attr_table[i].value.size()*attr_table[j].value.size());
-                                                if(i == 0 && j ==0)
-                                                        cout << "pijy " << pijy << endl;
+                                                       (ijy_total+2*attr_table[i].value.size()*attr_table[j].value.size());
+                                                if(i == 1 && j ==1)
+                                                        cout << ijy << "-" << ijy_total << " pijy " << pijy << endl;
                                                 int ij_y = mutual_table[t][r][s];
                                                 int ij_y_total = count_class[t];
                                                 long double pij_y = (long double)(ij_y + 1)/
-                                                        (ij_y_total+ attr_table[i].value.size()*attr_table[j].value.size());
-                                                if(i == 0 && j ==0)
-                                                        cout << "pij_y "<< ij_y << " " << ij_y_total << " " << pij_y << endl;
+                                                       (ij_y_total+ attr_table[i].value.size()*attr_table[j].value.size());
+                                                if(i == 1 && j ==1)
+                                                        cout << ij_y << "-" << ij_y_total << " pij_y "<< pij_y << endl;
                                                 int i_y = get3DFrom3D(mutual_table,t,r,attr_table[j].value.size());
                                                 int i_y_total = count_class[t];
                                                 long double pi_y = (long double)(i_y + 1)/
                                                         (i_y_total + attr_table[i].value.size());
-                                                if(i == 0 && j ==0)
-                                                        cout << "pi_y " << pi_y << endl;
+                                                if(i == 1 && j ==1)
+                                                        cout << i_y << "-" << i_y_total << " pi_y " << pi_y << endl;
 
                                                 int j_y = get2DFrom3D(mutual_table,t,s,attr_table[i].value.size());
                                                 int j_y_total = count_class[t];
                                                 long double pj_y = (long double)(j_y + 1)/
                                                         (j_y_total + attr_table[j].value.size());
-                                                if(i == 0 && j ==0)
-                                                        cout << "pj_y " << pj_y << endl;
+                                                if(i == 1 && j ==1)
+                                                        cout << j_y <<"-" <<  j_y_total << " pj_y " << pj_y << endl;
+
 
                                                 mutual_ij += pijy*log(pij_y/(pi_y*pj_y));
+                                                if(i == 1 && j ==1)
+                                                        cout << pijy*log(pij_y/(pi_y*pj_y)) << "Mutual: " << mutual_ij << endl;
                                         }
                                 }
                         }

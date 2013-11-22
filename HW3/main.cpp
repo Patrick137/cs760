@@ -28,6 +28,7 @@ int main(int argc, const char* argv[]){
 			traindata.parse_data(singleline);
 	}
 	cout << "Load Data Completed" << endl;
+        traindata.printData();
 	/*Bayes* naiveBayes = new Bayes(traindata);
 	naiveBayes->naiveBayes();
 	naiveBayes->displayBayes();

@@ -40,6 +40,7 @@ class Data{
 struct vertex{
 	typedef pair<vector<vector<double> >, vertex *> ve;
 	vector<ve> adj;
+        vector<vertex*> parent;
 	string name;
 	vertex(string s){
 	  name =s;

@@ -49,6 +49,7 @@ void Bayes::addEdge(const string& from, const string& to, vector<vector<double> 
 	vertex *t = (network.find(to)->second);
 	pair<vector<vector<double> >,vertex *> edge = make_pair(cost,t);
 	f->adj.push_back(edge);
+        t->parent.push_back(f);
 	return;
 }
 
@@ -82,7 +83,7 @@ void Bayes::naiveBayes(){
 	for(int i = 0; i < attr_table.size()-1; i ++){
 		addVertex(attr_table[i].name);
 		vector<vector<double> > cost = calculateCostForNaive(i);
-		addEdge(attr_table[i].name,classname,cost);
+		addEdge(classname,attr_table[i].name,cost);
 	}
 }
 
@@ -90,8 +91,8 @@ void Bayes::displayBayes(){
 	for(int i = 0; i < attr_table.size()-1; i ++){
 		cout << attr_table[i].name;
 		vertex* p = getVertex(attr_table[i].name);
-		for(int j = 0; j < p->adj.size(); j ++){
-			cout << " " + (p->adj)[j].second->name;
+		for(int j = 0; j < p->parent.size(); j ++){
+			cout << " " + (p->parent)[j]->name;
 		}
 		cout << endl;
 	}
@@ -105,9 +106,11 @@ void Bayes::testNaiveBayes(vector<vector<double> > testdata){
 		vector<double> instance = testdata[i];
 		long double* multi_y = new long double[2];
 		multi_y[0] = 1; multi_y[1] = 1;
-		for(int j = 0; j < attr_table.size()-1; j ++){
-			vertex* p = getVertex(attr_table[j].name);
-			vector<vector<double> > cost = (p->adj)[0].first;
+		//for(int j = 0; j < attr_table.size()-1; j ++){
+                for(int j = 0; j < root->adj.size(); j ++){
+			//vertex* p = getVertex(attr_table[j].name);
+			//vector<vector<double> > cost = (p->adj)[0].first;
+			vector<vector<double> > cost = (root->adj)[j].first;
 			multi_y[0] *= cost[0][instance[j]];
 			multi_y[1] *= cost[1][instance[j]];
 		}

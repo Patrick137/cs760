@@ -1,5 +1,20 @@
 #include "header.h"
 
+void displayVector(vector<vector<double> > data){
+        for(int i = 0; i < data.size(); i ++){
+                cout << "Line " << i << endl;
+                for(int j = 0; j < data[0].size() ; j ++)
+                        cout << data[i][j] << " ";
+                cout << endl;
+        }
+}
+
+void displayVector(vector<double> data){
+        for(int i = 0; i < data.size(); i ++)
+                cout << data[i] << " ";
+        cout << endl;
+}
+
 Bayes::Bayes(Data data){
 	dataset = data.getData();
 	attr_table = data.getAttr();
@@ -9,8 +24,8 @@ Bayes::Bayes(Data data){
 	for(int i = 0; i < dataset.size(); i ++){
 		sum[(int)dataset[i][attr_table.size()-1]]++;
 	}
-	prob_y[0] = (double)sum[0]/(sum[0] + sum[1]);
-	prob_y[1] = (double)sum[1]/(sum[0] + sum[1]);
+	prob_y[0] = (double)(sum[0]+1)/(sum[0] + sum[1]+2);
+	prob_y[1] = (double)(sum[1]+1)/(sum[0] + sum[1]+2);
 }
 
 
@@ -23,7 +38,6 @@ void Bayes::addVertex(const string &name){
 		network[name] = v;
 		return;
 	}
-	cout << "Add vertex: " << name << endl;
 }
 
 vertex* Bayes::getVertex(const string &name){
@@ -52,23 +66,12 @@ vector<vector<double> > Bayes::calculateCostForNaive(int indx){
 	for(int i = 0; i < dataset.size(); i ++){
 		int instanceClass = dataset[i][classind];
 		count[instanceClass][dataset[i][indx]]++;
-		sum[instanceClass] ++;
+		sum[instanceClass]++;
 	}
 	for(int i = 0; i < attr_table[indx].value.size(); i ++){
 		cost[0][i] = (double)(count[0][i]+1)/sum[0];
 		cost[1][i] = (double)(count[1][i]+1)/sum[1];
 	}
-
-	cout << "Attribute " << indx << " " << cost[0].size() <<  endl;
-	for(int i = 0; i < attr_table[indx].value.size(); i ++){
-		cout << cost[0][i] << " ";
-	}	
-	cout << endl;
-	for(int i = 0; i < attr_table[indx].value.size(); i ++){
-		cout << cost[1][i] << " ";
-	}	
-	cout << endl;
-
 	return cost;
 }
 
@@ -76,7 +79,7 @@ void Bayes::naiveBayes(){
 	string classname = attr_table[attr_table.size()-1].name;
 	addVertex(classname);
 	root = getVertex(classname);
-	for(int i = 0; i < attr_table.size(); i ++){
+	for(int i = 0; i < attr_table.size()-1; i ++){
 		addVertex(attr_table[i].name);
 		vector<vector<double> > cost = calculateCostForNaive(i);
 		addEdge(attr_table[i].name,classname,cost);
@@ -92,34 +95,34 @@ void Bayes::displayBayes(){
 		}
 		cout << endl;
 	}
+        cout << endl;
 }
 
 void Bayes::testNaiveBayes(vector<vector<double> > testdata){
 	int correct_num = 0;
+        cout << setprecision(16);
 	for(int i =0; i < testdata.size(); i ++){
 		vector<double> instance = testdata[i];
-		double* multi_y = new double[2];
+		long double* multi_y = new long double[2];
 		multi_y[0] = 1; multi_y[1] = 1;
-		for(int j = 0; j < attr_table.size(); j ++){
+		for(int j = 0; j < attr_table.size()-1; j ++){
 			vertex* p = getVertex(attr_table[j].name);
 			vector<vector<double> > cost = (p->adj)[0].first;
 			multi_y[0] *= cost[0][instance[j]];
 			multi_y[1] *= cost[1][instance[j]];
 		}
+		long double sum_multi = prob_y[0]*multi_y[0]+prob_y[1]*multi_y[1];
 
-		double sum_multi = prob_y[0]*multi_y[0]+prob_y[1]*multi_y[1];
-
-		double* final_prob = new double[2];
-		final_prob[0] = prob_y[0]*multi_y[0]/sum_multi;
-		final_prob[1] = prob_y[1]*multi_y[1]/sum_multi;
+		long double* final_prob = new long double[2];
+		final_prob[0] = (prob_y[0]*multi_y[0])/sum_multi;
+		final_prob[1] = (prob_y[1]*multi_y[1])/sum_multi;
 		int predict_class = final_prob[0] > final_prob[1]? 0 : 1;
 		int actual_class = instance[attr_table.size()-1];
-		cout << final_prob[0] << " " << final_prob[1] << endl;
 		if(predict_class == actual_class)
 			correct_num ++;
 		cout << attr_table[attr_table.size()-1].value[predict_class] << " " <<
 			attr_table[attr_table.size()-1].value[actual_class] << " " <<
 			final_prob[predict_class] << endl;
 	}
-	cout << correct_num << endl;
+	cout << endl << correct_num << endl;
 }

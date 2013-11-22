@@ -10,7 +10,7 @@
 @attribute 'extravasates' { no, yes}
 @attribute 'regeneration_of' { no, yes}
 @attribute 'early_uptake_in' { no, yes}
-@attribute 'lym_nodes_dimin' { 1, 2}
+@attribute 'lym_nodes_dimin' { 1, 2 }
 @attribute 'lym_nodes_enlar' { 1, 2, 3, 4}
 @attribute 'changes_in_lym' { bean, oval, round}
 @attribute 'defect_in_node' { no, lacunar, lac_margin, lac_central}

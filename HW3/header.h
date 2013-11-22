@@ -51,6 +51,7 @@ class Bayes{
   public:
 	Bayes(Data data);
 	vector<vector<double> > dataset;
+	vector<vector<long double> > mutual_info;
 	vector<attribute> attr_table;
 	typedef map<string, vertex* > vmap;
 	vmap network;
@@ -61,6 +62,8 @@ class Bayes{
 	void displayBayes();
 	void naiveBayes();
 	vector<vector<double> > calculateCostForNaive(int indx);
+	void calculateMutualInfo();
+	void printMutualInfo();
 	vertex* getVertex(const string &name);
 	void testNaiveBayes(vector<vector<double> > testdata);
 };

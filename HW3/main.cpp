@@ -28,16 +28,18 @@ int main(int argc, const char* argv[]){
 			traindata.parse_data(singleline);
 	}
 	cout << "Load Data Completed" << endl;
-        traindata.printData();
+        //traindata.printData();
 	/*Bayes* naiveBayes = new Bayes(traindata);
 	naiveBayes->naiveBayes();
 	naiveBayes->displayBayes();
         */
         Bayes* tan = new Bayes(traindata);
-        tan->calculateMutualInfo();
+        tan->TANBayes();
+        /*tan->calculateMutualInfo();
         tan->printMutualInfo();
-	//Read the testing set
-        /*
+        tan->Prim();
+	//Read the testing set*/
+
 	while(getline(testFile,singleline)){
                 if(singleline[0] == '%')
                         continue;
@@ -47,6 +49,7 @@ int main(int argc, const char* argv[]){
 			testdata.parse_data(singleline);
 	}
 	cout << "Begin Test" << endl;
-	naiveBayes->testNaiveBayes(testdata.getData());
-        */
+	//naiveBayes->testNaiveBayes(testdata.getData());
+        tan->testTANBayes(testdata.getData());
+
 }

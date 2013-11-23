@@ -10,6 +10,7 @@
 #include <cfloat>
 #include <assert.h>
 #include <map>
+#include <queue>
 
 using namespace std;
 
@@ -38,18 +39,34 @@ class Data{
 };
 
 struct vertex{
-	typedef pair<vector<vector<double> >, vertex *> ve;
-	vector<ve> adj;
+	vector<vertex*> adj;
         vector<vertex*> parent;
 	string name;
+        int indx;
 	vertex(string s){
 	  name =s;
 	}
 };
 
+struct primNode{
+        int from;
+        int to;
+        long double cost;
+};
+struct CmpNode
+{
+        bool operator()(const primNode& lhs, const primNode& rhs){
+               return lhs.cost<rhs.cost;
+        }
+};
+
 class Bayes{
   public:
 	Bayes(Data data);
+        typedef map<int,vector<vector<long double> > > cost1Dmp;
+        cost1Dmp cost1D;
+        typedef map<int,vector<vector<vector<long double> > > > cost2Dmp;
+        cost2Dmp cost2D;
 	vector<vector<double> > dataset;
 	vector<vector<long double> > mutual_info;
 	vector<attribute> attr_table;
@@ -58,12 +75,18 @@ class Bayes{
 	vertex* root;
 	double* prob_y;
 	void addVertex(const string &name);
-	void addEdge(const string& from, const string& to, vector<vector<double> >);
+	void addEdge(const string& from, const string& to);
 	void displayBayes();
 	void naiveBayes();
-	vector<vector<double> > calculateCostForNaive(int indx);
+	void TANBayes();
+	vector<vector<long double> > calculateCostForOneParent(int indx);
 	void calculateMutualInfo();
 	void printMutualInfo();
 	vertex* getVertex(const string &name);
 	void testNaiveBayes(vector<vector<double> > testdata);
+	void testTANBayes(vector<vector<double> > testdata);
+
+        void Prim();
+        void generateTree(int from, vector<pair<int,int> >& edges);
+        int getAttrIndx(string name);
 };

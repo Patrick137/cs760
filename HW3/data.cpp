@@ -1,5 +1,12 @@
 #include "header.h"
 
+Data::Data(){
+}
+Data::Data(vector<vector<double> > data2, vector<attribute> attr){
+        data = data2;
+        attr_table = attr;
+}
+
 void Data::parse_header(string singleline){
 	int pos = singleline.find_first_of(' ');
 	string type = singleline.substr(1,pos-1);

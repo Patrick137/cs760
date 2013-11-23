@@ -30,6 +30,8 @@ class Data{
 	int POS_CLASS;
 
   public:
+  Data();
+  Data(vector<vector<double> > data,vector<attribute> attr_table);
   void parse_header(string singleline);
   void parse_data(string singleline);
   vector<vector<double> > getData();
@@ -83,8 +85,8 @@ class Bayes{
 	void calculateMutualInfo();
 	void printMutualInfo();
 	vertex* getVertex(const string &name);
-	void testNaiveBayes(vector<vector<double> > testdata);
-	void testTANBayes(vector<vector<double> > testdata);
+	int testNaiveBayes(vector<vector<double> > testdata);
+	int testTANBayes(vector<vector<double> > testdata);
 
         void Prim();
         void generateTree(int from, vector<pair<int,int> >& edges);

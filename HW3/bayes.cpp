@@ -275,7 +275,7 @@ void Bayes::TANBayes(){
 	addVertex(classname);
 	root = getVertex(classname);
         for(int i = 0; i < attr_table.size()-1; i ++){
-                cerr << "CPT of Attribute: " << i << endl;
+                //cerr << "CPT of Attribute: " << i << endl;
                 string name = attr_table[i].name;
                 vertex* cur = getVertex(name);
                 addEdge(classname,name);
@@ -283,10 +283,11 @@ void Bayes::TANBayes(){
         		vector<vector<long double> > cost = calculateCostForOneParent(i);
                         cost1D[i] = cost;
                         cerr<<cost.size() << " " << cost[0].size() << endl;
-                        for(int j = 0; j < cost.size(); j ++)
+                        /*for(int j = 0; j < cost.size(); j ++)
                                 for(int k = 0; k < cost[0].size(); k ++)
                                         cerr<<"Pr(" << i << "="<< k << "|" << attr_table.size()-1 << "=" <<  j <<
                                             ")=" << cost[j][k] << endl;
+                                            */
                 }
                 if(cur->parent.size() == 2){
                         vertex* parent1 = cur->parent[0];
@@ -313,9 +314,9 @@ void Bayes::TANBayes(){
                                         for(int t = 0; t < attr_table[indx2].value.size(); t ++){
                                                 cost[t][r][s] = (long double)(count[t][r][s]+1)/
                                                         (partial_count[s][t] + attr_table[i].value.size());
-                                                cerr<<"Pr(" << i << "="<< r << "|" << indx1 <<
+                                                /*cerr<<"Pr(" << i << "="<< r << "|" << indx1 <<
                                                         "=" << s << "," << indx2 << "=" << t << ")" <<
-                                                        "=" << cost[t][r][s] << endl;
+                                                        "=" << cost[t][r][s] << endl;*/
                                         }
 
                         cost2D[i] = cost;
@@ -323,22 +324,7 @@ void Bayes::TANBayes(){
 
         }
 }
-/*
-void Bayes::setEdgeCost(string name1, string name2,vector<vector<vector<double> > > cost){
-	vertex *f = (network.find(name1)->second);
-	vertex *t = (network.find(name2)->second);
-        int i = 0;
-        for(i = 0; i < edge.size(); i ++){
-                if((edge[i].second)->name == name2)
-                        break;
-        }
-        assert(i != edge.size());
-        f->adj.erase(i);
-	pair<vector<vector<double> >,vertex *> edge = make_pair(cost,t);
-	f->adj.push_back(edge);
-	return;
-}
-*/
+
 void Bayes::displayBayes(){
 	for(int i = 0; i < attr_table.size()-1; i ++){
 		cout << attr_table[i].name;
@@ -351,7 +337,7 @@ void Bayes::displayBayes(){
         cout << endl;
 }
 
-void Bayes::testNaiveBayes(vector<vector<double> > testdata){
+int Bayes::testNaiveBayes(vector<vector<double> > testdata){
 	int correct_num = 0;
         cout << setprecision(17);
 	for(int i =0; i < testdata.size(); i ++){
@@ -377,9 +363,10 @@ void Bayes::testNaiveBayes(vector<vector<double> > testdata){
 			final_prob[predict_class] << endl;
 	}
 	cout << endl << correct_num << endl;
+        return correct_num;
 }
 
-void Bayes::testTANBayes(vector<vector<double> > testdata){
+int Bayes::testTANBayes(vector<vector<double> > testdata){
 	int correct_num = 0;
         cout << setprecision(17);
 	for(int i =0; i < testdata.size(); i ++){
@@ -413,4 +400,5 @@ void Bayes::testTANBayes(vector<vector<double> > testdata){
 			final_prob[predict_class] << endl;
 	}
 	cout << endl << correct_num << endl;
+        return correct_num;
 }

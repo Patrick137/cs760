@@ -22,7 +22,7 @@ void Data::parse_header(string singleline){
 			attr.type = 0;
 		else{
 			attr.type = 1;
-			int temp_start = singleline.find_first_of('{')+2;
+			int temp_start = singleline.find_first_of('{')+1;
 			int temp_end = singleline.find_last_of('}')-1;
 			string temp = singleline.substr(temp_start,temp_end-temp_start+1);
 			//Add the value of the nominal attribute to attr
@@ -31,7 +31,9 @@ void Data::parse_header(string singleline){
 				//Deleta the space
 				if (temp_pos == -1)
 					temp_pos = temp.find_first_of(' ') == -1? temp.length(): temp.find_last_of(' ');
-				attr.value.push_back(temp.substr(0,temp_pos));
+                                string str = temp.substr(0,temp_pos);
+                                str.erase(std::remove(str.begin(),str.end(),' '),str.end());
+				attr.value.push_back(str);
 				temp.erase(0,temp_pos+2);
 			}
 		}

@@ -37,7 +37,7 @@ int main(int argc, const char* argv[]){
 		}else if(singleline.size() != 0)
 			testdata.parse_data(singleline);
 	}
-	cout << "Load Data Completed" << endl;
+	//cout << "Load Data Completed" << endl;
 	vector<int> index;
         for(int i = 0; i < traindata.getData().size(); i ++)
                 index.push_back(i);

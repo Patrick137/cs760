@@ -282,7 +282,6 @@ void Bayes::TANBayes(){
                 if(cur->parent.size() == 1){
         		vector<vector<long double> > cost = calculateCostForOneParent(i);
                         cost1D[i] = cost;
-                        cerr<<cost.size() << " " << cost[0].size() << endl;
                         /*for(int j = 0; j < cost.size(); j ++)
                                 for(int k = 0; k < cost[0].size(); k ++)
                                         cerr<<"Pr(" << i << "="<< k << "|" << attr_table.size()-1 << "=" <<  j <<
@@ -339,7 +338,7 @@ void Bayes::displayBayes(){
 
 int Bayes::testNaiveBayes(vector<vector<double> > testdata){
 	int correct_num = 0;
-        cout << setprecision(17);
+        cout << setprecision(16);
 	for(int i =0; i < testdata.size(); i ++){
 		vector<double> instance = testdata[i];
 		long double* multi_y = new long double[2];
@@ -368,7 +367,7 @@ int Bayes::testNaiveBayes(vector<vector<double> > testdata){
 
 int Bayes::testTANBayes(vector<vector<double> > testdata){
 	int correct_num = 0;
-        cout << setprecision(17);
+        cout << setprecision(16);
 	for(int i =0; i < testdata.size(); i ++){
 		vector<double> instance = testdata[i];
 		long double* multi_y = new long double[2];

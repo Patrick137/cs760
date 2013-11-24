@@ -58,7 +58,14 @@ struct primNode{
 struct CmpNode
 {
         bool operator()(const primNode& lhs, const primNode& rhs){
-               return lhs.cost<rhs.cost;
+                if(lhs.cost != rhs.cost)
+                        return lhs.cost < rhs.cost;
+                else if(lhs.from != rhs.from)
+                        return lhs.from < rhs.from;
+                else if(lhs.to != rhs.to)
+                        return lhs.to < rhs.to;
+                else
+                        return false;
         }
 };
 

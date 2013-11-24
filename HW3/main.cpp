@@ -42,7 +42,7 @@ int main(int argc, const char* argv[]){
 		}else if(singleline.size() != 0)
 			testdata.parse_data(singleline);
 	}
-	cout << "Load Data Completed" << endl;
+	//cout << "Load Data Completed" << endl;
         //traindata.printData();
         if(type == 'n'){
         	Bayes* naiveBayes = new Bayes(traindata);
@@ -54,13 +54,13 @@ int main(int argc, const char* argv[]){
                 /*tan->calculateMutualInfo();
                 tan->printMutualInfo();
                 tan->Prim();*/
-	        cout << "Begin Test" << endl;
+	        //cout << "Begin Test" << endl;
         	naiveBayes->testNaiveBayes(testdata.getData());
         }else if(type == 't'){
                 Bayes* tan = new Bayes(traindata);
                 tan->TANBayes();
         	tan->displayBayes();
-	        cout << "Begin Test" << endl;
+	        //cout << "Begin Test" << endl;
                 tan->testTANBayes(testdata.getData());
         }else
                 cerr<<"Invalid argument" << endl;
